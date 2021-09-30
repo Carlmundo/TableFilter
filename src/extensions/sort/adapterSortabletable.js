@@ -78,27 +78,27 @@ export default class AdapterSortableTable extends Feature {
          * Blank image file name
          * @type {String}
          */
-        this.imgBlank = defaultsStr(opts.image_blank, 'blank.png');
+        this.imgBlank = defaultsStr(opts.image_blank, '');
 
         /**
          * Css class for sort indicator image
          * @type {String}
          */
-        this.imgClassName = defaultsStr(opts.image_class_name, 'sort-arrow');
+        this.imgClassName = defaultsStr(opts.image_class_name, 'fa solid fa-sort');
 
         /**
          * Css class for ascending sort indicator image
          * @type {String}
          */
         this.imgAscClassName = defaultsStr(opts.image_asc_class_name,
-            'ascending');
+            '-up');
 
         /**
          * Css class for descending sort indicator image
          * @type {String}
          */
         this.imgDescClassName = defaultsStr(opts.image_desc_class_name,
-            'descending');
+            '-down');
 
         /**
          * Cell attribute key storing custom value used for sorting
@@ -277,8 +277,8 @@ export default class AdapterSortableTable extends Feature {
                 c = cells[i];
                 if (stt.sortTypes[i] !== null && stt.sortTypes[i] !== 'None') {
                     c.style.cursor = 'pointer';
-                    img = createElm('img',
-                        ['src', adpt.imgPath + adpt.imgBlank]);
+                    img = createElm('i',
+                        ['class', adpt.imgBlank]);
                     c.appendChild(img);
                     if (stt.sortTypes[i] !== null) {
                         c.setAttribute('_sortType', stt.sortTypes[i]);
@@ -322,13 +322,13 @@ export default class AdapterSortableTable extends Feature {
                 let cellAttr = cell.getAttribute('_sortType');
                 if (cellAttr !== null && cellAttr !== 'None') {
                     img = cell.lastChild || cell;
-                    if (img.nodeName.toLowerCase() !== 'img') {
-                        img = createElm('img',
-                            ['src', adpt.imgPath + adpt.imgBlank]);
+                    if (img.nodeName.toLowerCase() !== 'i') {
+                        img = createElm('i',
+                            ['class', adpt.imgBlank]);
                         cell.appendChild(img);
                     }
                     if (i === stt.sortColumn) {
-                        img.className = adpt.imgClassName + ' ' +
+                        img.className = adpt.imgClassName + 
                             (this.descending ?
                                 adpt.imgDescClassName :
                                 adpt.imgAscClassName);
@@ -497,7 +497,7 @@ export default class AdapterSortableTable extends Feature {
         let ids = tf.getFiltersId();
         for (let idx = 0; idx < ids.length; idx++) {
             let header = tf.getHeaderElement(idx);
-            let img = tag(header, 'img');
+            let img = tag(header, 'i');
 
             if (img.length === 1) {
                 header.removeChild(img[0]);
